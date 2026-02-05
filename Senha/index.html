@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Jogo da Senha Colorida</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+</head>
+<body>
+
+<div class="vida-container">
+    <div class="vida-barra" id="vidaBarra"></div>
+</div>
+
+<div class="nivel" id="nivel">Senha: 1</div>
+<div class="recorde" id="recorde">Recorde: 1</div>
+
+<div class="go" id="goTexto"></div>
+
+<div class="BaseSegredo" id="baseSegredo"></div>
+
+<div class="Base">
+    <button class="Teclas vermelho" data-value="0"></button>
+    <button class="Teclas azul" data-value="1"></button>
+    <button class="Teclas verde" data-value="2"></button>
+    <button class="Teclas amarelo" data-value="3"></button>
+    <button class="Teclas roxo" data-value="4"></button>
+    <button class="Teclas ciano" data-value="5"></button>
+</div>
+
+<!-- GAME OVER -->
+<div class="gameover" id="gameOver">
+    <h1>🔥 Game Over 🔥</h1>
+    <p>Nível alcançado: <span id="nivelFinal"></span></p>
+    <button id="btnReiniciar">Jogar novamente</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
