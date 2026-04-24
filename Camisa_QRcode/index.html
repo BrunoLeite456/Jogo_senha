@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mágica</title>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .container {
+    z-index: 2;
+    padding: 5vw;
+    width: 100%;
+  }
+
+  /* TEXTO RESPONSIVO DE VERDADE */
+  h1 {
+    font-size: 10vw;
+    color: orange;
+    text-shadow: 0 0 15px orange;
+    margin: 0;
+  }
+
+  p {
+    font-size: 5.5vw;
+    line-height: 1.4;
+    margin-top: 4vw;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Instagram gigante e visível */
+  .instagram-box {
+    position: fixed;
+    bottom: 5vw;
+    right: 4vw;
+    transform: rotate(-10deg);
+    text-align: right;
+    z-index: 3;
+  }
+
+  .instagram-box span {
+    display: block;
+    color: #ccc;
+    font-size: 4vw;
+    margin-bottom: 1vw;
+  }
+
+  .instagram-box a {
+    display: inline-block;
+    font-size: 8vw;
+    color: white;
+    text-decoration: none;
+    font-family: cursive;
+    border-right: 3px solid white;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+
+    animation: escreverAssinatura 2s steps(20, end) forwards,
+               piscar 0.7s infinite,
+               glitchInsta 0.4s infinite;
+  }
+
+  @keyframes escreverAssinatura {
+    from { width: 0; }
+    to { width: 50vw; }
+  }
+
+  @keyframes piscar {
+    50% { border-color: transparent; }
+  }
+
+  @keyframes glitchInsta {
+    0% { text-shadow: 2px 0 red, -2px 0 blue; }
+    25% { text-shadow: -2px 0 red, 2px 0 blue; }
+    50% { text-shadow: 2px 0 red, -2px 0 blue; }
+    75% { text-shadow: -2px 0 red, 2px 0 blue; }
+    100% { text-shadow: 2px 0 red, -2px 0 blue; }
+  }
+
+  .glitch {
+    animation: glitch 0.3s infinite;
+  }
+
+  @keyframes glitch {
+    0% { text-shadow: 3px 0 red, -3px 0 blue; }
+    25% { text-shadow: -3px 0 red, 3px 0 blue; }
+    50% { text-shadow: 3px 0 red, -3px 0 blue; }
+    75% { text-shadow: -3px 0 red, 3px 0 blue; }
+    100% { text-shadow: 3px 0 red, -3px 0 blue; }
+  }
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container" id="conteudo">
+  <h1>Você encontrou...</h1>
+  <p>um mágico com sede!</p>
+</div>
+
+<script>
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+
+  function ajustarCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  ajustarCanvas();
+  window.addEventListener("resize", ajustarCanvas);
+
+  let confetes = [];
+
+  function criarConfete() {
+    return {
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 2,
+      speed: Math.random() * 3 + 2,
+      sway: Math.random() * 2 - 1
+    };
+  }
+
+  function iniciarConfete() {
+    confetes = Array.from({ length: 120 }, criarConfete);
+
+    function animar() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      confetes.forEach(c => {
+        c.y += c.speed;
+        c.x += c.sway;
+
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fillStyle = "orange";
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animar);
+    }
+
+    animar();
+  }
+
+  iniciarConfete();
+
+  function digitarTexto(el, texto, velocidade = 60, callback) {
+    let i = 0;
+    el.innerHTML = "";
+
+    function escrever() {
+      if (i < texto.length) {
+        el.innerHTML += texto.charAt(i);
+        i++;
+        setTimeout(escrever, velocidade);
+      } else if (callback) {
+        callback();
+      }
+    }
+
+    escrever();
+  }
+
+  setTimeout(() => {
+    const c = document.getElementById("conteudo");
+
+    c.innerHTML = `
+      <h1 id="t1"></h1>
+      <p id="t2"></p>
+      <p id="t3"></p>
+      <p id="t4" style="opacity:0.8;"></p>
+      <p id="t5" style="color:orange;"></p>
+    `;
+
+    const t1 = document.getElementById("t1");
+
+    digitarTexto(t1, "Gosta de mágica?", 80, () => {
+      t1.classList.add("glitch");
+      setTimeout(() => {
+        t1.classList.remove("glitch");
+      }, 1200);
+    });
+
+    setTimeout(() => {
+      digitarTexto(document.getElementById("t2"), "uma mágica em troca de um gole da sua bebida", 50);
+    }, 800);
+
+    setTimeout(() => {
+      digitarTexto(document.getElementById("t3"), "aceita ou vai fugir?", 60);
+    }, 1800);
+
+    setTimeout(() => {
+      digitarTexto(document.getElementById("t4"), "(relaxa... a mágica é melhor que o gole)", 50);
+    }, 2800);
+
+    setTimeout(() => {
+      digitarTexto(document.getElementById("t5"), "me encontra aí", 60);
+    }, 3800);
+
+    setTimeout(() => {
+      const insta = document.createElement("div");
+      insta.className = "instagram-box";
+
+      insta.innerHTML = `
+        <span>se quiser me seguir:</span>
+        <a href="https://instagram.com/seuusuario" target="_blank">instagram</a>
+      `;
+
+      document.body.appendChild(insta);
+    }, 5500);
+
+  }, 3000);
+</script>
+
+</body>
+</html>

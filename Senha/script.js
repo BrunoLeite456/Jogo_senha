@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const baseBotoes = document.querySelector('.Base');
 
   const VIDA_MAX = 20;
-  const TAM_MAX = Infinity;
+  const TAM_MAX = 5;
 
   let tamanhoSenha = 1;
   let senha = [];
@@ -192,12 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function subirNivel() {
-    if (tamanhoSenha < TAM_MAX) tamanhoSenha++;
+    if (tamanhoSenha < TAM_MAX) {
+      tamanhoSenha++;
+    }
+    // se já chegou no máximo, continua jogando com senha 5
     senha = gerarSenha();
     criarQuadrados();
     setTimeout(piscarSenhaNosQuadrados, 200);
   }
-
   /* ---------- EVENTOS ---------- */
 
   botoes.forEach(botao => {
@@ -233,3 +235,5 @@ document.addEventListener('DOMContentLoaded', () => {
   atualizarVida();
   setTimeout(piscarSenhaNosQuadrados, 300);
 });
+
+
